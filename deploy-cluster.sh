@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-echo "Hello world"
+echo "Hello world" $MY_VARIABLE
