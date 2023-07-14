@@ -36,6 +36,6 @@ kubectl get pods -n $namespace -o name | xargs kubectl delete --force --grace-pe
 
 helm repo add wso2 https://helm.wso2.com && helm repo update
 
-helm install $project_name wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace --set wso2.analytics.replicas=0
+helm install $project_name wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace --set wso2.analytics.dashboard.replicas=0 --set wso2.analytics.worker.resources.requests.memory=1G --set wso2.analytics.worker.resources.requests.cpu=1000m
 #helm install $project_name wso2/am-single-node --version 4.2.0-1 --namespace $namespace --create-namespace
 
