@@ -35,4 +35,6 @@ kubectl get pods -n $namespace -o name | xargs kubectl delete --force --grace-pe
 
 helm repo add wso2 https://helm.wso2.com && helm repo update
 
-helm install wso2am-3.2.0 wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace
+#helm install wso2am-3.2.0 wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace
+helm install wso2am-3.2.0 wso2/am-single-node --version 4.0.0-1 --namespace $namespace --create-namespace
+
