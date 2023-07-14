@@ -19,7 +19,7 @@ ls scripts/kubernetes
 ##############################################
 
 namespace="wso2"
-project_name="wso2am-3.2.0"
+project_name="wso2am"
 
 gcloud container clusters get-credentials cluster-1 --zone us-central1-c
 
