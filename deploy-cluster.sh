@@ -19,6 +19,7 @@ ls scripts/kubernetes
 ##############################################
 
 namespace="wso2"
+project_name="wso2am-3.2.0"
 
 gcloud container clusters get-credentials cluster-1 --zone us-central1-c
 
@@ -30,11 +31,11 @@ kubectl create clusterrolebinding cluster-admin-binding \
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 
 # delete existing deployment
-helm delete wso2am -n $namespace
+helm delete $project_name -n $namespace
 kubectl get pods -n $namespace -o name | xargs kubectl delete --force --grace-period=0 -n $namespace
 
 helm repo add wso2 https://helm.wso2.com && helm repo update
 
-#helm install wso2am-3.2.0 wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace
-helm install wso2am-3.2.0 wso2/am-single-node --version 4.0.0-1 --namespace $namespace --create-namespace
+#helm install $project_name wso2/am-pattern-1 --version 3.2.0-5 --namespace $namespace --create-namespace
+helm install $project_name wso2/am-single-node --version 4.0.0-1 --namespace $namespace --create-namespace
 
