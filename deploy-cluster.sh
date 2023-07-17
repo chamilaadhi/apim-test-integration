@@ -21,6 +21,7 @@ ls scripts/kubernetes
 pattern=$1
 username=$2
 password=$3
+analytics=$4
 
 namespace="wso2"
 project_name="wso2am"
@@ -68,7 +69,7 @@ helm install $project_name \
     --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=$readiness_probe_delay \
     --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=$startup_probe_delay \
     --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=$readiness_probe_delay \
-    --set wso2.deployment.analytics.worker.enable=false
+    --set wso2.deployment.analytics.worker.enable=$analytics
 
 
 kubectl get ing -n $namespace
