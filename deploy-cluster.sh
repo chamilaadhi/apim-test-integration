@@ -68,7 +68,7 @@ helm install $project_name \
     --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=$readiness_probe_delay \
     --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=$startup_probe_delay \
     --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=$readiness_probe_delay \
-    --set wso2.deployment.analytics.worker.enable=true
+    --set wso2.deployment.analytics.worker.enable=false
 
 
 kubectl get ing -n $namespace
