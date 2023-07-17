@@ -155,30 +155,33 @@ kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.
 # Install APIM using helm.
 helm repo add wso2 https://helm.wso2.com && helm repo update ||  { echo 'Error while adding WSO2 helm repository to helm.';  exit 1; }
 helm dependency build "kubernetes-apim/${path_to_helm_folder}" ||  { echo 'Error while building helm folder : kubernetes-apim/${path_to_helm_folder}.';  exit 1; }
-helm install apim "kubernetes-apim/${path_to_helm_folder}" \
-    --set wso2.deployment.am.cp.db.hostname="$dbHost" \
-    --set wso2.deployment.am.cp.db.port="$dbPort" \
-    --set wso2.deployment.am.cp.db.type="$dbType" \
-    --set wso2.deployment.am.cp.db.driver="$dbDriver" \
-    --set wso2.deployment.am.cp.db.driver_url="$driverUrl" \
-    --set wso2.deployment.am.cp.db.apim.username="$dbUserNameAPIM" \
-    --set wso2.deployment.am.cp.db.apim_shared.username="$dbUserNameAPIMShared" \
-    --set wso2.deployment.am.cp.db.apim.password="$dbPasswordAPIM" \
-    --set wso2.deployment.am.cp.db.apim_shared.password="$dbPasswordAPIMShared" \
-    --set wso2.deployment.am.cp.db.apim.url="$dbAPIMUrl" \
-    --set wso2.deployment.am.cp.db.apim_shared.url="$dbAPIMSharedUrl" \
-    --set wso2.deployment.dependencies.cluster_mysql=false \
-    --set wso2.deployment.am.trafficmanager.livenessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.trafficmanager.readinessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.cp.startupProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.cp.readinessProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.startupProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.startupProbe.periodSeconds=10 \
-    --set wso2.deployment.am.readinessProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
-    --set wso2.deployment.mi.replicas=0 \
-    --namespace "${kubernetes_namespace}" --create-namespace \
-    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
+#helm install apim "kubernetes-apim/${path_to_helm_folder}" \
+#    --set wso2.deployment.am.cp.db.hostname="$dbHost" \
+#    --set wso2.deployment.am.cp.db.port="$dbPort" \
+#    --set wso2.deployment.am.cp.db.type="$dbType" \
+#    --set wso2.deployment.am.cp.db.driver="$dbDriver" \
+#    --set wso2.deployment.am.cp.db.driver_url="$driverUrl" \
+#    --set wso2.deployment.am.cp.db.apim.username="$dbUserNameAPIM" \
+#    --set wso2.deployment.am.cp.db.apim_shared.username="$dbUserNameAPIMShared" \
+#    --set wso2.deployment.am.cp.db.apim.password="$dbPasswordAPIM" \
+#    --set wso2.deployment.am.cp.db.apim_shared.password="$dbPasswordAPIMShared" \
+#    --set wso2.deployment.am.cp.db.apim.url="$dbAPIMUrl" \
+#    --set wso2.deployment.am.cp.db.apim_shared.url="$dbAPIMSharedUrl" \
+#    --set wso2.deployment.dependencies.cluster_mysql=false \
+#    --set wso2.deployment.am.trafficmanager.livenessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.trafficmanager.readinessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.cp.startupProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.cp.readinessProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.startupProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.startupProbe.periodSeconds=10 \
+#    --set wso2.deployment.am.readinessProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
+#    --set wso2.deployment.mi.replicas=0 \
+#    --namespace "${kubernetes_namespace}" --create-namespace \
+#    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
+
+helm install apim wso2/am-pattern-1 --version 4.1.0-2 --namespace "${kubernetes_namespace}" --create-namespace
+
 
 cd "$workingdir"
 
