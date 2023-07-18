@@ -186,7 +186,6 @@ helm install apim \
     "kubernetes-apim/${path_to_helm_folder}" \
     --version 3.2.0-5 \
     --namespace "${kubernetes_namespace}" \
-    --dependency-update \
     --create-namespace \
     --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=180 \
     --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=180 \
@@ -196,7 +195,8 @@ helm install apim \
     --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=180 \
     --set wso2.deployment.dependencies.nfsServerProvisioner=false \
     --set wso2.deployment.dependencies.mysql=false \
-    --set wso2.deployment.analytics.worker.enable=false
+    --set wso2.deployment.analytics.worker.enable=false \
+    ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
 cd "$workingdir"
 
