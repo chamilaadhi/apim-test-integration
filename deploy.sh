@@ -188,18 +188,25 @@ helm install apim \
     --version 3.2.0-5 \
     --namespace "${kubernetes_namespace}" \
     --create-namespace \
-    --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=180 \
-    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=180 \
-    --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=180 \
-    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=180 \
-    --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=180 \
-    --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=180 \
+    --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.dependencies.nfsServerProvisioner=false \
     --set wso2.deployment.dependencies.mysql=false \
     --set wso2.deployment.analytics.worker.enable=false \
+    --set wso2.deployment.am.db.driver='org.h2.Driver' \
+    --set wso2.deployment.am.db.type=h2 \
+    --set wso2.deployment.am.db.apim.username=wso2carbon \
+    --set wso2.deployment.am.db.apim.password=wso2carbon \
+    --set wso2.deployment.am.db.apim.url='jdbc:h2:./repository/database/WSO2AM_DB;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE' \
+    --set wso2.deployment.am.db.apim_shared.username=wso2carbon \
+    --set wso2.deployment.am.db.apim_shared.password=wso2carbon \
+    --set wso2.deployment.am.db.apim_shared.url='jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE' \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
-kubectl wait --for=condition=available deployment --all --timeout=30m -n ${kubernetes_namespace}
 
 cd "$workingdir"
 
