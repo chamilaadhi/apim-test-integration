@@ -30,10 +30,26 @@ readiness_probe_delay="300"
 
 if [ -z "${WUM_USERNAME}" ]; then
     echo "WUM_USERNAME is empty"
+else
+    echo "WUM_USERNAME is not empty"
 fi
 
 if [ -z "${WUM_PASSWORD}" ]; then
     echo "WUM_PASSWORD is empty"
+else
+    echo "WUM_PASSWORD is not empty"
+fi
+
+if [ -z "${username}" ]; then
+    echo "username is empty"
+else
+    echo "username is not empty"
+fi
+
+if [ -z "${password}" ]; then
+    echo "password is empty"
+else
+    echo "password is not empty"
 fi
 
 gcloud container clusters get-credentials cluster-1 --zone us-central1-c
