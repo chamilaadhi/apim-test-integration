@@ -28,17 +28,13 @@ project_name="wso2am"
 startup_probe_delay="300"
 readiness_probe_delay="300"
 
-isEmpty "${WUM_USERNAME}";
-flag=$?
-if [ $flag = 1 ];
-    then echo "WUM_USERNAME variable is empty.";
-fi;
+if [ -z "${WUM_USERNAME}" ]; then
+    echo "WUM_USERNAME is empty"
+fi
 
-isEmpty "${WUM_PASSWORD}";
-flag=$?
-if [ $flag = 1 ];
-    then echo "WUM_PASSWORD  variable is empty.";
-fi;
+if [ -z "${WUM_PASSWORD}" ]; then
+    echo "WUM_PASSWORD is empty"
+fi
 
 gcloud container clusters get-credentials cluster-1 --zone us-central1-c
 
