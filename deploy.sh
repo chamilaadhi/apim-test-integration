@@ -182,6 +182,7 @@ helm dependency build "kubernetes-apim/${path_to_helm_folder}" ||  { echo 'Error
 #    --namespace "${kubernetes_namespace}" --create-namespace \
 #    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
 
+echo "Installing Helm chart - ns ${kubernetes_namespace}  "
 helm install apim \
     "kubernetes-apim/${path_to_helm_folder}" \
     --version 3.2.0-5 \
@@ -197,6 +198,8 @@ helm install apim \
     --set wso2.deployment.dependencies.mysql=false \
     --set wso2.deployment.analytics.worker.enable=false \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
+
+kubectl wait --for=condition=available deployment --all --timeout=30m -n ${kubernetes_namespace}
 
 cd "$workingdir"
 
