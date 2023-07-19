@@ -2,8 +2,8 @@ workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
 
-rev1=$(echo "$1" | rev)
-rev2=$(echo "$2" | rev)
+rev1=$(echo "${WUM_USER}" | rev)
+rev2=$(echo "${product_name}" | rev)
 rev3=$(echo "$3" | rev)
 echo "===========rev1 =====" $rev1
 echo "===========rev2 =====" $rev2
