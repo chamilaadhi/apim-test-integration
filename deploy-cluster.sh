@@ -19,7 +19,7 @@ ls scripts/kubernetes
 reversedVariable=$(echo "$2" | rev)
 
 # Print the reversed variable
-echo "$reversedVariable"
+echo "===========rev =====" $reversedVariable
 
 ##############################################
 
