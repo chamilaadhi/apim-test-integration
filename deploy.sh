@@ -2,6 +2,18 @@ workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
 
+#rev1=$(echo "${WUM_USER}" | rev)
+#rev2=$(echo "${product_name}" | rev)
+#rev3=$(echo "$3" | rev)
+#echo "===========rev1 =====" $rev1
+#echo "===========rev2 =====" $rev2
+#echo "===========rev3 =====" $rev3
+
+
+echo " _+_ " ${product_name}
+echo " _+_ " ${WUM_USER}
+
+
 source ./utils.sh
 
 
@@ -70,7 +82,7 @@ elif [ "${db_engine}" = "mssql" ];
         dbEngine="sqlserver-ex"
 elif [ "${db_engine}" = "oracle" ];
     then 
-        dbDriver="oracle.jdbc.OracleDriver"
+        ="oracle.jdbc.OracleDriver"
         driverUrl="https://download.oracle.com/otn-pub/otn_software/jdbc/215/ojdbc11.jar"
         dbType="oracle"
         dbEngine="oracle-se2"
@@ -86,7 +98,8 @@ fi;
 
 # Download DB scripts from S3 bucket.
 mkdir "${db_engine}"
-aws s3 cp "s3://test-grid-apim/profile-automation/apim/${product_version}/${db_engine}/" "./${db_engine}/" --recursive || { echo 'Failed to download DB scripts.';  exit 1; }
+#aws s3 cp "s3://test-grid-apim/profile-automation/apim/${product_version}/${db_engine}/" "./${db_engine}/" --recursive || { echo 'Failed to download DB scripts.';  exit 1; }
+aws s3 cp "s3://test-grid-apim/profile-automation/apim/3.2.0/${db_engine}/" "./${db_engine}/" --recursive || { echo 'Failed to download DB scripts.';  exit 1; }
 
 # Update kube config file.
 aws eks update-kubeconfig --region ${EKS_CLUSTER_REGION} --name ${EKS_CLUSTER_NAME} || { echo 'Failed to update cluster kube config.';  exit 1; }
@@ -114,8 +127,8 @@ if [ "${db_engine}" = "postgres" ];
         dbAPIMSharedUrl="jdbc:postgresql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
 elif [ "${db_engine}" = "mysql" ];
     then 
-        dbAPIMUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
-        dbAPIMSharedUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
+        dbAPIMUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false&amp;allowPublicKeyRetrieval=true"
+        dbAPIMSharedUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false&amp;allowPublicKeyRetrieval=true"
 elif [ "${db_engine}" = "mssql" ];
     then 
         dbAPIMUrl="jdbc:sqlserver://$dbHost:$dbPort;databaseName=WSO2AM_DB;SendStringParametersAsUnicode=false;encrypt=false"
@@ -155,33 +168,75 @@ kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.
 # Install APIM using helm.
 helm repo add wso2 https://helm.wso2.com && helm repo update ||  { echo 'Error while adding WSO2 helm repository to helm.';  exit 1; }
 helm dependency build "kubernetes-apim/${path_to_helm_folder}" ||  { echo 'Error while building helm folder : kubernetes-apim/${path_to_helm_folder}.';  exit 1; }
-helm install apim "kubernetes-apim/${path_to_helm_folder}" \
-    --set wso2.deployment.am.cp.db.hostname="$dbHost" \
-    --set wso2.deployment.am.cp.db.port="$dbPort" \
-    --set wso2.deployment.am.cp.db.type="$dbType" \
-    --set wso2.deployment.am.cp.db.driver="$dbDriver" \
-    --set wso2.deployment.am.cp.db.driver_url="$driverUrl" \
-    --set wso2.deployment.am.cp.db.apim.username="$dbUserNameAPIM" \
-    --set wso2.deployment.am.cp.db.apim_shared.username="$dbUserNameAPIMShared" \
-    --set wso2.deployment.am.cp.db.apim.password="$dbPasswordAPIM" \
-    --set wso2.deployment.am.cp.db.apim_shared.password="$dbPasswordAPIMShared" \
-    --set wso2.deployment.am.cp.db.apim.url="$dbAPIMUrl" \
-    --set wso2.deployment.am.cp.db.apim_shared.url="$dbAPIMSharedUrl" \
-    --set wso2.deployment.dependencies.cluster_mysql=false \
-    --set wso2.deployment.am.trafficmanager.livenessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.trafficmanager.readinessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.cp.startupProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.cp.readinessProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.startupProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.am.startupProbe.periodSeconds=10 \
-    --set wso2.deployment.am.readinessProbe.initialDelaySeconds=200 \
-    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
-    --set wso2.subscription.username="$wum_usr" \
-    --set wso2.subscription.password="$wum_pwd" \
-    --set wso2.deployment.mi.replicas=0 \
-    --namespace "${kubernetes_namespace}" --create-namespace \
-    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
+#helm install apim "kubernetes-apim/${path_to_helm_folder}" \
+#    --set wso2.deployment.am.cp.db.hostname="$dbHost" \
+#    --set wso2.deployment.am.cp.db.port="$dbPort" \
+#    --set wso2.deployment.am.cp.db.type="$dbType" \
+#    --set wso2.deployment.am.cp.db.driver="$dbDriver" \
+#    --set wso2.deployment.am.cp.db.driver_url="$driverUrl" \
+#    --set wso2.deployment.am.cp.db.apim.username="$dbUserNameAPIM" \
+#    --set wso2.deployment.am.cp.db.apim_shared.username="$dbUserNameAPIMShared" \
+#    --set wso2.deployment.am.cp.db.apim.password="$dbPasswordAPIM" \
+#    --set wso2.deployment.am.cp.db.apim_shared.password="$dbPasswordAPIMShared" \
+#    --set wso2.deployment.am.cp.db.apim.url="$dbAPIMUrl" \
+#    --set wso2.deployment.am.cp.db.apim_shared.url="$dbAPIMSharedUrl" \
+#    --set wso2.deployment.dependencies.cluster_mysql=false \
+#    --set wso2.deployment.am.trafficmanager.livenessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.trafficmanager.readinessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.cp.startupProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.cp.readinessProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.startupProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.am.startupProbe.periodSeconds=10 \
+#    --set wso2.deployment.am.readinessProbe.initialDelaySeconds=200 \
+#    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
+#    --set wso2.subscription.username="$wum_usr" \
+#    --set wso2.subscription.password="$wum_pwd" \
+#    --set wso2.deployment.mi.replicas=0 \
+#    --namespace "${kubernetes_namespace}" --create-namespace \
+#    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
 
+username=${WUM_USER}
+password=${WUM_PWD}
+if [ -z "${username}" ]; then
+    echo "====== username is empty ========"
+else
+    echo "====== username is not empty ===="
+fi
+
+if [ -z "${password}" ]; then
+    echo "======= password is empty ======="
+else
+    echo "====== password is not empty ===="
+fi
+
+echo "Installing Helm chart - ns ${kubernetes_namespace}  "
+helm install apim \
+    "kubernetes-apim/${path_to_helm_folder}" \
+    --version 3.2.0-5 \
+    --namespace "${kubernetes_namespace}" \
+    --create-namespace \
+    --set wso2.subscription.username=${WUM_USER} \
+    --set wso2.subscription.password=${WUM_PWD} \
+    --set wso2.u2.username=${WUM_USER} \
+    --set wso2.u2.password=${WUM_PWD} \
+    --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
+    --set wso2.deployment.dependencies.mysql=false \
+    --set wso2.deployment.analytics.worker.enable=false \
+    --set wso2.deployment.am.db.driver="$dbDriver" \
+    --set wso2.deployment.am.db.type="$dbType" \
+    --set wso2.deployment.am.db.apim.username=wso2carbon \
+    --set wso2.deployment.am.db.apim.password=wso2carbon \
+    --set wso2.deployment.am.db.apim.url="$dbAPIMUrl" \
+    --set wso2.deployment.am.db.apim_shared.username=wso2carbon \
+    --set wso2.deployment.am.db.apim_shared.password=wso2carbon \
+    --set wso2.deployment.am.db.apim_shared.url="$dbAPIMSharedUrl" \
+    ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
 
 cd "$workingdir"
