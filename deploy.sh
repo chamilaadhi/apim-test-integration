@@ -182,12 +182,30 @@ helm dependency build "kubernetes-apim/${path_to_helm_folder}" ||  { echo 'Error
 #    --namespace "${kubernetes_namespace}" --create-namespace \
 #    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
 
+username=$2
+password=$3
+if [ -z "${username}" ]; then
+    echo "====== username is empty ========"
+else
+    echo "====== username is not empty ===="
+fi
+
+if [ -z "${password}" ]; then
+    echo "======= password is empty ======="
+else
+    echo "====== password is not empty ===="
+fi
+
 echo "Installing Helm chart - ns ${kubernetes_namespace}  "
 helm install apim \
     "kubernetes-apim/${path_to_helm_folder}" \
     --version 3.2.0-5 \
     --namespace "${kubernetes_namespace}" \
     --create-namespace \
+    --set wso2.subscription.username=$username \
+    --set wso2.subscription.password=$password \
+    --set wso2.u2.username=$username \
+    --set wso2.u2.password=$password \
     --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
