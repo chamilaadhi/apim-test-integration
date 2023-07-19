@@ -9,6 +9,15 @@ echo "===========rev1 =====" $rev1
 echo "===========rev2 =====" $rev2
 echo "===========rev3 =====" $rev3
 
+echo "=== " ${1}
+echo "=== " ${2}
+echo "=== " ${3}
+
+echo " ++ " $1
+echo " _+_ " ${product_name}
+echo " _+_ " ${WUM_USER}
+
+
 source ./utils.sh
 
 
