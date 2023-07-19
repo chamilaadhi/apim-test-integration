@@ -82,7 +82,7 @@ elif [ "${db_engine}" = "mssql" ];
         dbEngine="sqlserver-ex"
 elif [ "${db_engine}" = "oracle" ];
     then 
-        dbDriver="oracle.jdbc.OracleDriver"
+        ="oracle.jdbc.OracleDriver"
         driverUrl="https://download.oracle.com/otn-pub/otn_software/jdbc/215/ojdbc11.jar"
         dbType="oracle"
         dbEngine="oracle-se2"
@@ -127,8 +127,8 @@ if [ "${db_engine}" = "postgres" ];
         dbAPIMSharedUrl="jdbc:postgresql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
 elif [ "${db_engine}" = "mysql" ];
     then 
-        dbAPIMUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
-        dbAPIMSharedUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false"
+        dbAPIMUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false&amp;allowPublicKeyRetrieval=true"
+        dbAPIMSharedUrl="jdbc:mysql://$dbHost:$dbPort/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false&amp;allowPublicKeyRetrieval=true"
 elif [ "${db_engine}" = "mssql" ];
     then 
         dbAPIMUrl="jdbc:sqlserver://$dbHost:$dbPort;databaseName=WSO2AM_DB;SendStringParametersAsUnicode=false;encrypt=false"
@@ -228,14 +228,14 @@ helm install apim \
     --set wso2.deployment.dependencies.nfsServerProvisioner=false \
     --set wso2.deployment.dependencies.mysql=false \
     --set wso2.deployment.analytics.worker.enable=false \
-    --set wso2.deployment.am.db.driver='org.h2.Driver' \
-    --set wso2.deployment.am.db.type=h2 \
+    --set wso2.deployment.am.db.driver="$dbDriver" \
+    --set wso2.deployment.am.db.type="$dbType" \
     --set wso2.deployment.am.db.apim.username=wso2carbon \
     --set wso2.deployment.am.db.apim.password=wso2carbon \
-    --set wso2.deployment.am.db.apim.url='jdbc:h2:./repository/database/WSO2AM_DB;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE' \
+    --set wso2.deployment.am.db.apim.url="$dbAPIMUrl" \
     --set wso2.deployment.am.db.apim_shared.username=wso2carbon \
     --set wso2.deployment.am.db.apim_shared.password=wso2carbon \
-    --set wso2.deployment.am.db.apim_shared.url='jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE' \
+    --set wso2.deployment.am.db.apim_shared.url="$dbAPIMSharedUrl" \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
 
