@@ -2,6 +2,11 @@ workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
 
+
+rev=$(echo "$2" | rev)
+
+echo "===========rev =====" $rev
+
 source ./utils.sh
 
 
