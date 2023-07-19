@@ -2,18 +2,14 @@ workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
 
-rev1=$(echo "${WUM_USER}" | rev)
-rev2=$(echo "${product_name}" | rev)
-rev3=$(echo "$3" | rev)
-echo "===========rev1 =====" $rev1
-echo "===========rev2 =====" $rev2
-echo "===========rev3 =====" $rev3
+#rev1=$(echo "${WUM_USER}" | rev)
+#rev2=$(echo "${product_name}" | rev)
+#rev3=$(echo "$3" | rev)
+#echo "===========rev1 =====" $rev1
+#echo "===========rev2 =====" $rev2
+#echo "===========rev3 =====" $rev3
 
-echo "=== " ${1}
-echo "=== " ${2}
-echo "=== " ${3}
 
-echo " ++ " $1
 echo " _+_ " ${product_name}
 echo " _+_ " ${WUM_USER}
 
@@ -198,8 +194,8 @@ helm dependency build "kubernetes-apim/${path_to_helm_folder}" ||  { echo 'Error
 #    --namespace "${kubernetes_namespace}" --create-namespace \
 #    ||  { echo 'Error while instaling APIM to cluster.';  exit 1; }
 
-username=$2
-password=$3
+username=${WUM_USER}
+password=${WUM_PWD}
 if [ -z "${username}" ]; then
     echo "====== username is empty ========"
 else
@@ -218,10 +214,10 @@ helm install apim \
     --version 3.2.0-5 \
     --namespace "${kubernetes_namespace}" \
     --create-namespace \
-    --set wso2.subscription.username=$username \
-    --set wso2.subscription.password=$password \
-    --set wso2.u2.username=$username \
-    --set wso2.u2.password=$password \
+    --set wso2.subscription.username=${WUM_USER} \
+    --set wso2.subscription.password=${WUM_PWD} \
+    --set wso2.u2.username=${WUM_USER} \
+    --set wso2.u2.password=${WUM_PWD} \
     --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
