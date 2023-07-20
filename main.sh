@@ -2,6 +2,7 @@
 workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
+tests_dir=$(pwd)
 echo "====== Running main.sh script ======"
 kubectl get pods -l product=apim -n="${kubernetes_namespace}"  -o custom-columns=:metadata.name > podNames.txt
 dateWithMinute=$(date +"%Y_%m_%d_%H_%M")
@@ -65,25 +66,56 @@ rm -f -r "$jmeterResultPath"
 mkdir -p "$outputFolderpath"
 mkdir -p "$jmeterResultPath"
 echo "=================== host ============  " ${HOST_NAME}
-jmeter -n -t APIM-jmeter-test.jmx -Jhost="${HOST_NAME}" -l "$outputFolderpath/jmeter.log" -e -o "$jmeterResultPath" > jmeter-runtime.log
-cp jmeter-runtime.log "$jmeterResultPath"
-greppedOutput=$(cat jmeter-runtime.log | grep "end of run" | wc -l)
-if [[ "$greppedOutput" == "0" ]]
-then
-    echo "Could not start jmeter tests."
-    exit 1
-fi 
+#jmeter -n -t APIM-jmeter-test.jmx -Jhost="${HOST_NAME}" -l "$outputFolderpath/jmeter.log" -e -o "$jmeterResultPath" > jmeter-runtime.log
+#cp jmeter-runtime.log "$jmeterResultPath"
+#greppedOutput=$(cat jmeter-runtime.log | grep "end of run" | wc -l)
+#if [[ "$greppedOutput" == "0" ]]
+#then
+#    echo "Could not start jmeter tests."
+#    exit 1
+#fi 
 
-greppedOutput=$(cat jmeter-runtime.log | grep "Err:.*(100.00%).*" | wc -l)
-if [[ "$greppedOutput" != "0" ]]
-then
-    echo Jmeter test srcipts failed.
-    exit 1
+#greppedOutput=$(cat jmeter-runtime.log | grep "Err:.*(100.00%).*" | wc -l)
+#if [[ "$greppedOutput" != "0" ]]
+#then
+#    echo Jmeter test srcipts failed.
+#    exit 1
+#else
+#    echo All the Jmeter test scripts passed.
+#    exit 0
+#fi 
+
+#kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json -e kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+#collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+#environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+echo " == working dir = " $workingdir
+echo ls
+product_name=apim
+
+#collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+#environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
+collection_file=$tests_dir/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+environment_file=$tests_dir/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
+echo "==== Running newman tests == "
+/home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
+  --environment "$environment_file" \
+  --env-var "cluster_ip=${HOST_NAME}" \
+  --insecure \
+  --reporters cli,junit \
+  --reporter-junit-export newman-results.xml
+
+# Capture the exit code of the Newman test run
+newmanExitCode=$?
+
+# Check the exit code and return the appropriate error status
+if [ $newmanExitCode -eq 0 ]; then
+  echo "Newman tests passed successfully."
+  exit 0  # Jenkins job will succeed since the Newman test passed
 else
-    echo All the Jmeter test scripts passed.
-    exit 0
-fi 
-
-
+  echo "Newman tests failed. Please check the test results for more details."
+  exit 1  # Jenkins job will fail since the Newman test failed
+fi
 cd "$workingdir"
 
