@@ -65,24 +65,37 @@ rm -f -r "$jmeterResultPath"
 mkdir -p "$outputFolderpath"
 mkdir -p "$jmeterResultPath"
 echo "=================== host ============  " ${HOST_NAME}
-jmeter -n -t APIM-jmeter-test.jmx -Jhost="${HOST_NAME}" -l "$outputFolderpath/jmeter.log" -e -o "$jmeterResultPath" > jmeter-runtime.log
-cp jmeter-runtime.log "$jmeterResultPath"
-greppedOutput=$(cat jmeter-runtime.log | grep "end of run" | wc -l)
-if [[ "$greppedOutput" == "0" ]]
-then
-    echo "Could not start jmeter tests."
-    exit 1
-fi 
+#jmeter -n -t APIM-jmeter-test.jmx -Jhost="${HOST_NAME}" -l "$outputFolderpath/jmeter.log" -e -o "$jmeterResultPath" > jmeter-runtime.log
+#cp jmeter-runtime.log "$jmeterResultPath"
+#greppedOutput=$(cat jmeter-runtime.log | grep "end of run" | wc -l)
+#if [[ "$greppedOutput" == "0" ]]
+#then
+#    echo "Could not start jmeter tests."
+#    exit 1
+#fi 
 
-greppedOutput=$(cat jmeter-runtime.log | grep "Err:.*(100.00%).*" | wc -l)
-if [[ "$greppedOutput" != "0" ]]
-then
-    echo Jmeter test srcipts failed.
-    exit 1
-else
-    echo All the Jmeter test scripts passed.
-    exit 0
-fi 
+#greppedOutput=$(cat jmeter-runtime.log | grep "Err:.*(100.00%).*" | wc -l)
+#if [[ "$greppedOutput" != "0" ]]
+#then
+#    echo Jmeter test srcipts failed.
+#    exit 1
+#else
+#    echo All the Jmeter test scripts passed.
+#    exit 0
+#fi 
+
+#kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json -e kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+#collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+#environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
+product_name=apim
+collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+echo "==== Running newman tests == "
+newman run "$collection_file" \
+  --environment "$environment_file" \
+  --env-var "cluster_ip=${HOST_NAME}" \
+  --insecure
 
 
 cd "$workingdir"
