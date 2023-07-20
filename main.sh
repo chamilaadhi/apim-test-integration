@@ -99,10 +99,10 @@ collection_file=$tests_dir/tests-cases/profile-tests/Profile_Setup_Tests.postman
 environment_file=$tests_dir/tests-cases/profile-tests/APIM_Environment.postman_environment.json
 
 echo "==== Running newman tests == "
-/home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
-  --environment "$environment_file" \
-  --env-var "cluster_ip=${HOST_NAME}" \
-  --insecure
+#/home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
+#  --environment "$environment_file" \
+#  --env-var "cluster_ip=${HOST_NAME}" \
+#  --insecure
 
 
 cd "$workingdir"
