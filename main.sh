@@ -87,10 +87,16 @@ echo "=================== host ============  " ${HOST_NAME}
 #kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json -e kubernetes/product-deployment/scripts/apim/test-apim/tests-cases/profile-tests/APIM_Environment.postman_environment.json
 #collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
 #environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
-
+echo " == working dir = " $workingdir
+echo ls
 product_name=apim
-collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
-environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
+#collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+#environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
+collection_file=tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+environment_file=tests-cases/profile-tests/APIM_Environment.postman_environment.json
+
 echo "==== Running newman tests == "
 /home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
   --environment "$environment_file" \
