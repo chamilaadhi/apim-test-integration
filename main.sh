@@ -99,11 +99,23 @@ collection_file=$tests_dir/tests-cases/profile-tests/Profile_Setup_Tests.postman
 environment_file=$tests_dir/tests-cases/profile-tests/APIM_Environment.postman_environment.json
 
 echo "==== Running newman tests == "
-#/home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
-#  --environment "$environment_file" \
-#  --env-var "cluster_ip=${HOST_NAME}" \
-#  --insecure
+/home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
+  --environment "$environment_file" \
+  --env-var "cluster_ip=${HOST_NAME}" \
+  --insecure \
+  --reporters cli,junit \
+  --reporter-junit-export newman-results.xml
 
+# Capture the exit code of the Newman test run
+newmanExitCode=$?
 
+# Check the exit code and return the appropriate error status
+if [ $newmanExitCode -eq 0 ]; then
+  echo "Newman tests passed successfully."
+  exit 0  # Jenkins job will succeed since the Newman test passed
+else
+  echo "Newman tests failed. Please check the test results for more details."
+  exit 1  # Jenkins job will fail since the Newman test failed
+fi
 cd "$workingdir"
 
