@@ -227,7 +227,7 @@ helm install apim \
     --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.dependencies.nfsServerProvisioner=false \
     --set wso2.deployment.dependencies.mysql=false \
-    --set wso2.deployment.analytics.worker.enable=false \
+    --set wso2.deployment.analytics.worker.enable=true \
     --set wso2.deployment.am.db.driver="$dbDriver" \
     --set wso2.deployment.am.db.type="$dbType" \
     --set wso2.deployment.am.db.apim.username=wso2carbon \

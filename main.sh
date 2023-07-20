@@ -2,7 +2,7 @@
 workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
-
+echo "====== Running main.sh script ======"
 kubectl get pods -l product=apim -n="${kubernetes_namespace}"  -o custom-columns=:metadata.name > podNames.txt
 dateWithMinute=$(date +"%Y_%m_%d_%H_%M")
 date=$(date +"%Y_%m_%d")
@@ -64,6 +64,7 @@ rm -f "$outputFolderpath/jmeter.log"
 rm -f -r "$jmeterResultPath"
 mkdir -p "$outputFolderpath"
 mkdir -p "$jmeterResultPath"
+echo "=================== host ============  " ${HOST_NAME}
 jmeter -n -t APIM-jmeter-test.jmx -Jhost="${HOST_NAME}" -l "$outputFolderpath/jmeter.log" -e -o "$jmeterResultPath" > jmeter-runtime.log
 cp jmeter-runtime.log "$jmeterResultPath"
 greppedOutput=$(cat jmeter-runtime.log | grep "end of run" | wc -l)
