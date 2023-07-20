@@ -2,6 +2,7 @@
 workingdir=$(pwd)
 reldir=`dirname $0`
 cd $reldir
+tests_dir=$(pwd)
 echo "====== Running main.sh script ======"
 kubectl get pods -l product=apim -n="${kubernetes_namespace}"  -o custom-columns=:metadata.name > podNames.txt
 dateWithMinute=$(date +"%Y_%m_%d_%H_%M")
@@ -94,8 +95,8 @@ product_name=apim
 #collection_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
 #environment_file=kubernetes/product-deployment/scripts/${product_name}/test-${product_name}/tests-cases/profile-tests/APIM_Environment.postman_environment.json
 
-collection_file=tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
-environment_file=tests-cases/profile-tests/APIM_Environment.postman_environment.json
+collection_file=$tests_dir/tests-cases/profile-tests/Profile_Setup_Tests.postman_collection.json
+environment_file=$tests_dir/tests-cases/profile-tests/APIM_Environment.postman_environment.json
 
 echo "==== Running newman tests == "
 /home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$collection_file" \
