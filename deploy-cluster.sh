@@ -57,8 +57,8 @@ else
     echo "password is not empty"
 fi
 
-#gcloud container clusters get-credentials cluster-1 --zone us-central1-c
-gcloud container clusters get-credentials cluster-1 --zone us-central1
+gcloud container clusters get-credentials cluster-1 --zone us-central1-c
+#gcloud container clusters get-credentials cluster-1 --zone us-central1
 
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
