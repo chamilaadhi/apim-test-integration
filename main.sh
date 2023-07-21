@@ -109,7 +109,7 @@ echo "==== Running newman tests == "
 # Capture the exit code of the Newman test run
 newmanExitCode=$?
 
-curl -k --location 'https://${HOST_NAME}:443/stores/query' \
+curl -k --location "https://${HOST_NAME}:443/stores/query" \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic YWRtaW46YWRtaW4=' \
 --header 'Host: worker.analytics.am.wso2.com' \
