@@ -275,6 +275,12 @@ helm install apim "kubernetes-apim/${path_to_helm_folder}" --version 3.2.0-5 --n
     --set wso2.deployment.analytics.db.persistence_db.username="$dbUserNameAPIM" \
     --set wso2.deployment.analytics.db.persistence_db.password="$dbPasswordAPIM" \
     --set wso2.deployment.analytics.db.persistence_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_PERSISTENCE_DB?useSSL=false" \
+    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=180 \
+    --set wso2.deployment.am.gateway.livenessProbe.initialDelaySeconds=180 \
+    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=180 \
+    --set wso2.deployment.am.km.livenessProbe.initialDelaySeconds=180 \
+    --set wso2.deployment.analytics.worker.readinessProbe.initialDelaySeconds=60 \
+    --set wso2.deployment.analytics.worker.livenessProbe.initialDelaySeconds=60 \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
 cd "$workingdir"
