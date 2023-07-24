@@ -210,34 +210,72 @@ else
 fi
 
 echo "Installing Helm chart - ns ${kubernetes_namespace}  "
-helm install apim \
-    "kubernetes-apim/${path_to_helm_folder}" \
-    --version 3.2.0-5 \
-    --namespace "${kubernetes_namespace}" \
-    --create-namespace \
+#helm install apim \
+#    "kubernetes-apim/${path_to_helm_folder}" \
+#    --version 3.2.0-5 \
+#    --namespace "${kubernetes_namespace}" \
+#    --create-namespace \
+#    --set wso2.subscription.username=${WUM_USER} \
+#    --set wso2.subscription.password=${WUM_PWD} \
+#    --set wso2.u2.username=${WUM_USER} \
+#    --set wso2.u2.password=${WUM_PWD} \
+#    --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=300 \
+#    --set wso2.deployment.dependencies.nfsServerProvisioner=false \
+#    --set wso2.deployment.dependencies.mysql=false \
+#    --set wso2.deployment.analytics.worker.enable=true \
+#    --set wso2.deployment.am.db.driver="$dbDriver" \
+#    --set wso2.deployment.am.db.type="$dbType" \
+#    --set wso2.deployment.am.db.apim.username=wso2carbon \
+#    --set wso2.deployment.am.db.apim.password=wso2carbon \
+#    --set wso2.deployment.am.db.apim.url="$dbAPIMUrl" \
+#    --set wso2.deployment.am.db.apim_shared.username=wso2carbon \
+#    --set wso2.deployment.am.db.apim_shared.password=wso2carbon \
+#    --set wso2.deployment.am.db.apim_shared.url="$dbAPIMSharedUrl" \
+#    ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
+
+helm install apim "kubernetes-apim/${path_to_helm_folder}" --version 3.2.0-5 --namespace "${kubernetes_namespace}" --dependency-update --create-namespace \
     --set wso2.subscription.username=${WUM_USER} \
     --set wso2.subscription.password=${WUM_PWD} \
-    --set wso2.u2.username=${WUM_USER} \
-    --set wso2.u2.password=${WUM_PWD} \
-    --set wso2.deployment.am.gateway.startupProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.km.startupProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.pubDevPortalTM.startupProbe.initialDelaySeconds=300 \
-    --set wso2.deployment.am.pubDevPortalTM.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.dependencies.nfsServerProvisioner=false \
-    --set wso2.deployment.dependencies.mysql=false \
-    --set wso2.deployment.analytics.worker.enable=true \
-    --set wso2.deployment.am.db.driver="$dbDriver" \
+    --set wso2.deployment.dependencies.cluster_mysql=false \
+    --set wso2.deployment.am.gateway.replicas=1 \
+    --set wso2.deployment.am.km.replicas=1 \
+    --set wso2.deployment.analytics.dashboard.replicas=0 \
+    --set wso2.deployment.analytics.worker.replicas=1 \
+    --set wso2.deployment.am.db.hostname="$dbHost" \
+    --set wso2.deployment.am.db.port="$dbPort" \
     --set wso2.deployment.am.db.type="$dbType" \
-    --set wso2.deployment.am.db.apim.username=wso2carbon \
-    --set wso2.deployment.am.db.apim.password=wso2carbon \
+    --set wso2.deployment.am.db.driver="$dbDriver" \
+    --set wso2.deployment.am.db.driver_url="$driverUrl" \
+    --set wso2.deployment.am.db.apim.username="$dbUserNameAPIM" \
+    --set wso2.deployment.am.db.apim.password="$dbPasswordAPIM" \
     --set wso2.deployment.am.db.apim.url="$dbAPIMUrl" \
-    --set wso2.deployment.am.db.apim_shared.username=wso2carbon \
-    --set wso2.deployment.am.db.apim_shared.password=wso2carbon \
+    --set wso2.deployment.am.db.apim_shared.username="$dbUserNameAPIMShared" \
+    --set wso2.deployment.am.db.apim_shared.password="$dbPasswordAPIMShared" \
     --set wso2.deployment.am.db.apim_shared.url="$dbAPIMSharedUrl" \
+    --set wso2.analytics.db.hostname="$dbHost" \
+    --set wso2.analytics.db.port="$dbPort" \
+    --set wso2.analytics.db.driver="$dbDriver" \
+    --set wso2.analytics.db.driver_url="$driverUrl" \
+    --set wso2.analytics.db.connection_test_query="SELECT 1" \
+    --set wso2.analytics.db.permission_db.username="$dbUserNameAPIM" \
+    --set wso2.analytics.db.permission_db.password="$dbPasswordAPIM" \
+    --set wso2.analytics.db.permission_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_PERMISSIONS_DB?useSSL=false" \
+    --set wso2.analytics.db.analytics_db.username="$dbUserNameAPIM" \
+    --set wso2.analytics.db.analytics_db.password="$dbPasswordAPIM" \
+    --set wso2.analytics.db.analytics_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_STATS_DB?useSSL=false" \
+    --set wso2.analytics.db.cluster_db.username="$dbUserNameAPIM" \
+    --set wso2.analytics.db.cluster_db.password="$dbPasswordAPIM" \
+    --set wso2.analytics.db.cluster_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_CLUSTER_DB?useSSL=false" \
+    --set wso2.analytics.db.persistence_db.username="$dbUserNameAPIM" \
+    --set wso2.analytics.db.persistence_db.password="$dbPasswordAPIM" \
+    --set wso2.analytics.db.persistence_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_PERSISTENCE_DB?useSSL=false" \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
-
 
 cd "$workingdir"
 
