@@ -258,23 +258,23 @@ helm install apim "kubernetes-apim/${path_to_helm_folder}" --version 3.2.0-5 --n
     --set wso2.deployment.am.db.apim_shared.username="$dbUserNameAPIMShared" \
     --set wso2.deployment.am.db.apim_shared.password="$dbPasswordAPIMShared" \
     --set wso2.deployment.am.db.apim_shared.url="$dbAPIMSharedUrl" \
-    --set wso2.analytics.db.hostname="$dbHost" \
-    --set wso2.analytics.db.port="$dbPort" \
-    --set wso2.analytics.db.driver="$dbDriver" \
-    --set wso2.analytics.db.driver_url="$driverUrl" \
-    --set wso2.analytics.db.connection_test_query="SELECT 1" \
-    --set wso2.analytics.db.permission_db.username="$dbUserNameAPIM" \
-    --set wso2.analytics.db.permission_db.password="$dbPasswordAPIM" \
-    --set wso2.analytics.db.permission_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_PERMISSIONS_DB?useSSL=false" \
-    --set wso2.analytics.db.analytics_db.username="$dbUserNameAPIM" \
-    --set wso2.analytics.db.analytics_db.password="$dbPasswordAPIM" \
-    --set wso2.analytics.db.analytics_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_STATS_DB?useSSL=false" \
-    --set wso2.analytics.db.cluster_db.username="$dbUserNameAPIM" \
-    --set wso2.analytics.db.cluster_db.password="$dbPasswordAPIM" \
-    --set wso2.analytics.db.cluster_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_CLUSTER_DB?useSSL=false" \
-    --set wso2.analytics.db.persistence_db.username="$dbUserNameAPIM" \
-    --set wso2.analytics.db.persistence_db.password="$dbPasswordAPIM" \
-    --set wso2.analytics.db.persistence_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_PERSISTENCE_DB?useSSL=false" \
+    --set wso2.deployment.analytics.db.hostname="$dbHost" \
+    --set wso2.deployment.analytics.db.port="$dbPort" \
+    --set wso2.deployment.analytics.db.driver="$dbDriver" \
+    --set wso2.deployment.analytics.db.driver_url="$driverUrl" \
+    --set wso2.deployment.analytics.db.connection_test_query="SELECT 1" \
+    --set wso2.deployment.analytics.db.permission_db.username="$dbUserNameAPIM" \
+    --set wso2.deployment.analytics.db.permission_db.password="$dbPasswordAPIM" \
+    --set wso2.deployment.analytics.db.permission_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_PERMISSIONS_DB?useSSL=false" \
+    --set wso2.deployment.analytics.db.analytics_db.username="$dbUserNameAPIM" \
+    --set wso2.deployment.analytics.db.analytics_db.password="$dbPasswordAPIM" \
+    --set wso2.deployment.analytics.db.analytics_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2AM_STATS_DB?useSSL=false" \
+    --set wso2.deployment.analytics.db.cluster_db.username="$dbUserNameAPIM" \
+    --set wso2.deployment.analytics.db.cluster_db.password="$dbPasswordAPIM" \
+    --set wso2.deployment.analytics.db.cluster_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_CLUSTER_DB?useSSL=false" \
+    --set wso2.deployment.analytics.db.persistence_db.username="$dbUserNameAPIM" \
+    --set wso2.deployment.analytics.db.persistence_db.password="$dbPasswordAPIM" \
+    --set wso2.deployment.analytics.db.persistence_db.url="jdbc:mysql://$dbHost:$dbPort/WSO2_PERSISTENCE_DB?useSSL=false" \
     ||  { echo 'Error while installing APIM to cluster.';  exit 1; }
 
 cd "$workingdir"
