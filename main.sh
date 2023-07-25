@@ -97,8 +97,8 @@ product_name=apim
 
 echo "==== Running newman tests == "
 
-analytics_collection_file=$tests_dir/tests-cases/analytics-tests/Analytics_Test.json
-analytics_environment_file=$tests_dir/tests-cases/analytics-tests/AnalyticsAPIM_Environment.json
+analytics_collection_file=$tests_dir/tests-cases/analytics-tests/analytics_test.json
+analytics_environment_file=$tests_dir/tests-cases/analytics-tests/analytics_environment.json
 
 /home/ubuntu/.nvm/versions/node/v19.0.1/bin/newman run "$analytics_collection_file" \
   --environment "$analytics_environment_file" \
