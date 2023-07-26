@@ -71,7 +71,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 helm delete $project_name -n $namespace
 kubectl get pods -n $namespace -o name | xargs kubectl delete --force --grace-period=0 -n $namespace
 
-helm repo add wso2 https://helm.wso2.com && helm repo update
+#helm repo add wso2 https://helm.wso2.com && helm repo update
 
 #helm install $project_name scripts/kubernetes/$pattern \
 #        --version 3.2.0-5 --namespace $namespace --dependency-update --create-namespace \
