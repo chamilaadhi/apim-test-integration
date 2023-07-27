@@ -2554,7 +2554,7 @@
 											"",
 											"if (retryCount > 1 && !throttledOut) {",
 											"    setTimeout(function(){}, 800);",
-											"    pm.variables.set('applicationRetryCounter', --retryCount)",
+											"    pm.variables.set('subscriptionRetryCounter', --retryCount)",
 											"    postman.setNextRequest(pm.info.requestName);",
 											"} else if (retryCount == 1 && !throttledOut) {",
 											"    pm.test(\"API request is not throttled\", function () {",
