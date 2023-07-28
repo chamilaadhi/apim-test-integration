@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "71d6544a-bf81-4968-87f6-9dd0b8cfd6c8",
-		"name": "WSO2 API Manager 3.2.0 - Analytics Test",
+		"_postman_id": "02313775-7ed0-4a9b-b77c-e3f74423432f",
+		"name": "WSO2 API Manager 3.2.0 - Analytics Test Copy",
 		"description": "This document specifies a **RESTful API** for WSO2 **API Manager - Publisher REST API** .\nIt is written with [swagger 2.0](http://swagger.io/).\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8020362"
+		"_exporter_id": "8020362",
+		"_collection_link": "https://red-spaceship-419376.postman.co/workspace/wk~f3842656-88e7-444c-8aa6-2c3427460bd4/collection/8020362-02313775-7ed0-4a9b-b77c-e3f74423432f?action=share&creator=8020362&source=collection_link"
 	},
 	"item": [
 		{
@@ -172,342 +173,6 @@
 								"{{cluster_ip}}"
 							],
 							"port": "{{portal_port}}{{gateway_token_path}}"
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Applications",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var response = JSON.parse(responseBody);",
-									"for (var i = 0; i < response.list.length; i++) {",
-									"    var applications = response.list[i];",
-									"    if (applications != null) {",
-									"         if (applications.name == 'CalculatorApp') {",
-									"               pm.collectionVariables.set(\"applicationsID\", applications.applicationId);",
-									"         }",
-									"    } ",
-									"}",
-									"// Assert the response code",
-									"pm.test(\"Getting All the Applications\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}/api/am/store/v1/applications",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}",
-							"path": [
-								"api",
-								"am",
-								"store",
-								"v1",
-								"applications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get APIs",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var response = JSON.parse(responseBody);",
-									"for (var i = 0; i < response.list.length; i++) {",
-									"    var api = response.list[i];",
-									"    if (api.name === 'PizzaShackAPI') {",
-									"        pm.collectionVariables.set(\"deleteAPIId\", api.id);",
-									"    }",
-									"}",
-									"// Assert the response code",
-									"pm.test(\"Getting APIs\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}/api/am/publisher/v1/apis",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}",
-							"path": [
-								"api",
-								"am",
-								"publisher",
-								"v1",
-								"apis"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Subscription",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var response = JSON.parse(responseBody);",
-									"if (response.list != null) {",
-									"for (var i = 0; i < response.list.length; i++) {",
-									"    var subscription = response.list[i];",
-									"    if (subscription != null) {",
-									"         console.info(subscription.apiInfo.name);",
-									"         if (subscription.apiInfo.name == 'PizzaShackAPI') {",
-									"               pm.collectionVariables.set(\"subscriptionID\", subscription.subscriptionId);",
-									"         }",
-									"    } ",
-									"}",
-									"}",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}{{devportal_base_path}}/subscriptions?apiId={{deleteAPIId}}",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}{{devportal_base_path}}",
-							"path": [
-								"subscriptions"
-							],
-							"query": [
-								{
-									"key": "apiId",
-									"value": "{{deleteAPIId}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Subscription",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}{{devportal_base_path}}/subscriptions/{{subscriptionID}}",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}{{devportal_base_path}}",
-							"path": [
-								"subscriptions",
-								"{{subscriptionID}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Application",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}{{devportal_base_path}}/applications/{{applicationsID}}",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}{{devportal_base_path}}",
-							"path": [
-								"applications",
-								"{{applicationsID}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete API",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access-token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Host",
-								"value": "{{portals_host}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{protocol}}://{{cluster_ip}}:{{portal_port}}{{publisher_base_path}}/apis/{{deleteAPIId}}",
-							"protocol": "{{protocol}}",
-							"host": [
-								"{{cluster_ip}}"
-							],
-							"port": "{{portal_port}}{{publisher_base_path}}",
-							"path": [
-								"apis",
-								"{{deleteAPIId}}"
-							]
 						}
 					},
 					"response": []
@@ -1008,8 +673,8 @@
 										"exec": [
 											"const date = new Date();",
 											"pm.collectionVariables.set(\"time1\", date.getTime());",
-											"date.setSeconds(7);",
-											"pm.collectionVariables.set(\"time2\", date.getTime());",
+											"var val = date.setSeconds(7);",
+											"pm.collectionVariables.set(\"time2\", val);",
 											"pm.test(\"API invocation\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
@@ -1067,8 +732,8 @@
 										"exec": [
 											"const date = new Date();",
 											"pm.collectionVariables.set(\"timeL1\", date.getTime());",
-											"date.setSeconds(3);",
-											"pm.collectionVariables.set(\"timeL2\", date.getTime());",
+											"var val = date.setSeconds(3);",
+											"pm.collectionVariables.set(\"timeL2\", val);",
 											"pm.test(\"Faulty Invocation\", function () {",
 											"    pm.response.to.have.status(401);",
 											"});"
@@ -1449,7 +1114,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Subscription Removal\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1510,7 +1177,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"API Removal\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1562,7 +1231,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Application Removal\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2437,7 +2108,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Subscription Removal\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2489,7 +2162,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Application Removal\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2541,7 +2216,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Delete Subscription policy\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2596,7 +2273,7 @@
 							"script": {
 								"exec": [
 									"// Assert the response code",
-									"pm.test(\"API deletion\", function () {",
+									"pm.test(\"API Removal\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									""
