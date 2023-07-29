@@ -30,7 +30,7 @@ helm delete wso2am --namespace wso2
 kubectl get pods -n wso2 -o name | xargs kubectl delete --force --grace-period=0 -n wso2
 
 
-// TESTING or VERIFYING
+#TESTING or VERIFYING
 updateLevelState='TESTING'
 WUM_USER=''
 WUM_PWD=''
