@@ -29,8 +29,16 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 helm delete wso2am --namespace wso2
 kubectl get pods -n wso2 -o name | xargs kubectl delete --force --grace-period=0 -n wso2
 
+
+// TESTING or VERIFYING
+updateLevelState='TESTING'
+WUM_USER=''
+WUM_PWD=''
 echo "=====  deploy apim ========="
 helm install wso2am $k8s_repo_dir/$path_to_helm_folder --version 3.2.0-5 --namespace wso2 --dependency-update --create-namespace \
+    --set wso2.subscription.username=$WUM_USER \
+    --set wso2.subscription.password=$WUM_PWD \
+    --set wso2.subscription.updateLevelState=$updateLevelState \
     --set wso2.deployment.dependencies.nfsServerProvisioner=true \
     --set wso2.deployment.dependencies.mysql=true \
     --set wso2.deployment.am.gateway.replicas=1 \
