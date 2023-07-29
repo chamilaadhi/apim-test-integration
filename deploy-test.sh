@@ -17,7 +17,11 @@ k8s_repo_dir=scripts/kubernetes
 echo "===== modify resources ====="
 sh resources/$path_to_helm_folder/modify-resources.sh $k8s_repo_dir 
 
+# for GKE
 gcloud container clusters get-credentials cluster-1 --zone us-central1-c
+
+# EKS
+#aws eks update-kubeconfig --region us-east-1 --name testgrid-eks-clus
 
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
