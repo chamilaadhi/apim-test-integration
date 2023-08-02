@@ -43,7 +43,7 @@ WUM_PWD=''
 echo "=====  deploy apim ========="
 helm install wso2am $k8s_repo_dir/$path_to_helm_folder --version 4.2.0-1 --namespace wso2 --dependency-update --create-namespace \
     --set wso2.deployment.am.gateway.replicas=1 \
-    --set wso2.deployment.mi.replicas=1 \
+    --set wso2.deployment.mi.replicas=0 \
     --set wso2.deployment.am.dockerRegistry=chamilaadhi \
     --set wso2.deployment.am.imageName=wso2am \
     --set wso2.deployment.am.imageTag=4.2.0.20 \
