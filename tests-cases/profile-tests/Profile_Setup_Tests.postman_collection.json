@@ -1,7 +1,12 @@
 {
 	"info": {
+<<<<<<< Updated upstream
 		"_postman_id": "fb6e0c1e-60aa-476f-8d2c-dd6745644199",
 		"name": "Profile_Setup_Tests",
+=======
+		"_postman_id": "f9058d19-7917-4162-bc5a-59c5402c1c5e",
+		"name": "Profile Setup Tests - 4.1.0",
+>>>>>>> Stashed changes
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3432412"
 	},
