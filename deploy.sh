@@ -208,4 +208,3 @@ helm install apim "kubernetes-apim/${path_to_helm_folder}" \
 
 echo "Waiting for deployment to complete in namespace : ${kubernetes_namespace}"
 cd "$workingdir"
-
