@@ -226,6 +226,8 @@ helm install apim \
     --set wso2.deployment.analytics.db.persistence_db.url='jdbc:h2:\${sys:carbon.home}/wso2/${sys:wso2.runtime}/database/PERSISTENCE_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000;AUTO_SERVER=TRUE' \
     --set wso2.deployment.am.gateway.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.gateway.livenessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.readinessProbe.initialDelaySeconds=300 \
+    --set wso2.deployment.am.livenessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.km.readinessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.am.km.livenessProbe.initialDelaySeconds=300 \
     --set wso2.deployment.analytics.worker.readinessProbe.initialDelaySeconds=60 \
